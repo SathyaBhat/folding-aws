@@ -9,3 +9,5 @@ aws:
   max_spot_price: "1.234"
   # What IP addresses to allow security group access from?
   ssh_allow_ip_range: 192.168.0.1/32
+  # What instance type/sizing would you prefer?
+  ec2_instance_type: "c5n.large"

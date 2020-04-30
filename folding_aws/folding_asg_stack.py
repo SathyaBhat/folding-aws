@@ -2,11 +2,9 @@ from aws_cdk import core
 import aws_cdk.aws_ec2 as ec2
 import aws_cdk.aws_autoscaling as autoscaling
 
-ec2_instance_type = "c5n.large"
-
 class FoldingAsgStack(core.Stack):
 
-    def __init__(self, scope: core.Construct, id: str, region: str, vpc: str, ami_id: str, ssh_key: str, max_spot_price: str, ssh_allow_ip_range: str, **kwargs) -> None:
+    def __init__(self, scope: core.Construct, id: str, region: str, vpc: str, ec2_instance_type: str, ami_id: str, ssh_key: str, max_spot_price: str, ssh_allow_ip_range: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         self.asg = autoscaling.AutoScalingGroup(self,
