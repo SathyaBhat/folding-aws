@@ -21,6 +21,7 @@ This is a blank project for Python development with CDK.
 
         pip install -r requirements.txt
 
+- Copy the `config.sample.yaml` file to `config.yaml` and set the appropriate values
 - Show the cloudformation template
 
         cdk synth <stack name>
