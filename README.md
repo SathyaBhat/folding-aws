@@ -13,6 +13,7 @@ This is a blank project for Python development with CDK.
 - Install [packer](https://www.packer.io/intro/getting-started/install.html)
 - Generate [AWS access keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey)
 - Set the following variables in your shell's environment: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`
+- Change into the `packer` sub directory: `cd packer`
 - Build the Folding at Home Amazon Machine Image that will be used to create the virtual machines
       
       packer build -var 'fah_user=your_username' -var 'fah_passkey=your_passkey' \
