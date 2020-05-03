@@ -10,12 +10,16 @@ cd /tmp;
 if [ ! -f "${deb_file_name}" ]; then
   wget --quiet $deb_url;
 fi
-echo -e 'user\nteam\n123\n1\nyes\n' | sudo dpkg -i --force-depends $deb_file_name;
+echo -e 'user\n1234\n6789\n3\nyes\n' | sudo dpkg -i --force-depends $deb_file_name;
 
-sed "s/passkey v=''/passkey v='$fah_passkey'/; \
+sed -i "s/passkey v=''/passkey v='$fah_passkey'/; \
      s/team v=''/team v='$fah_team'/; \
-     s/user v=''/user v='$fah_user'/" config.xml;
+     s/user v=''/user v='$fah_user'/" /tmp/config.xml;
 
-sudo mv config.xml /etc/fahclient/config.xml
+sudo service FAHClient stop;
+sudo mv /tmp/config.xml /etc/fahclient/config.xml;
+sudo chown fahclient:root /etc/fahclient/config.xml;
+sudo service FAHClient start;
 
-sudo service FAHClient restart;
+echo "small test to see if the config file has been correctly generated";
+grep team /etc/fahclient/config.xml;
