@@ -1,10 +1,7 @@
 
 # Folding on AWS
 
-This is a CDK project which configures a 2-instance ASG. The ASG is pointed to an AMI which is pre-configured to run [Folding@Home](https://foldingathome.org/)
-
-This is a blank project for Python development with CDK.
-
+This is a CDK project which configures a 2-instance ASG. The ASG is pointed to an AMI which is pre-configured to run [Folding@Home](https://foldingathome.org/), which can be generated using `packer`.
 
 ## How to run
 
