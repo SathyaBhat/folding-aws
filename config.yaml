@@ -1,0 +1,13 @@
+aws:
+  # What AWS region do we use for VPC and ASG stacks?
+  region: us-east-1
+  # What is the AMI ID of the Folding @ Home Image
+  ami_id: ami-1234567890
+  # What ssh key is allowed access to the instances in the ASG?
+  ssh_key: super-private-ssh-key
+  # What is the maximum price in USD that we're willing to pay?
+  max_spot_price: "1.234"
+  # What IP addresses to allow security group access from?
+  ssh_allow_ip_range: 192.168.0.1/32
+  # What instance type/sizing would you prefer?
+  ec2_instance_type: "c5n.large"
