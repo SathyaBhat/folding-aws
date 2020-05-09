@@ -11,3 +11,5 @@ aws:
   ssh_allow_ip_range: 192.168.0.1/32
   # What instance type/sizing would you prefer?
   ec2_instance_type: "c5n.large"
+  # How many instances do you wish to use?
+  asg_size: 2

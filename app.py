@@ -22,6 +22,6 @@ vpc_stack = FoldingVpcStack(app, "folding-vpc", env=core.Environment(region=conf
 asg_stack = FoldingAsgStack(app, "folding-asg", region=config['aws']['region'], vpc=vpc_stack.vpc, 
                               ec2_instance_type=config['aws']['ec2_instance_type'], ami_id=config['aws']['ami_id'],
                               ssh_key=config['aws']['ssh_key'], max_spot_price=config['aws']['max_spot_price'],
-                              ssh_allow_ip_range=config['aws']['ssh_allow_ip_range'],
+                              ssh_allow_ip_range=config['aws']['ssh_allow_ip_range'], asg_size=config['aws']['asg_size'],
                               env=core.Environment(region=config['aws']['region']))
 app.synth()
