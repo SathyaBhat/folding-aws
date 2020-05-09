@@ -4,7 +4,7 @@ import aws_cdk.aws_autoscaling as autoscaling
 
 class FoldingAsgStack(core.Stack):
 
-    def __init__(self, scope: core.Construct, id: str, region: str, vpc: str, ec2_instance_type: str, ami_id: str, ssh_key: str, max_spot_price: str, ssh_allow_ip_range: str, **kwargs) -> None:
+    def __init__(self, scope: core.Construct, id: str, region: str, vpc: str, ec2_instance_type: str, ami_id: str, ssh_key: str, max_spot_price: str, ssh_allow_ip_range: str, asg_size: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         self.asg = autoscaling.AutoScalingGroup(self,
@@ -17,8 +17,8 @@ class FoldingAsgStack(core.Stack):
                                                 vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
                                                 allow_all_outbound=True,
                                                 associate_public_ip_address=True,
-                                                min_capacity=2,
-                                                max_capacity=2,
+                                                min_capacity=asg_size,
+                                                max_capacity=asg_size,
                                                 spot_price=max_spot_price
                                                 )
         sg_ssh_in = ec2.SecurityGroup(self, 
