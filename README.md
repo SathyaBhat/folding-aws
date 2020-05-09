@@ -16,7 +16,7 @@ This is a CDK project which configures a 2-instance ASG. The ASG is pointed to a
       packer build -var 'fah_user=your_username' -var 'fah_passkey=your_passkey' \
                   -var 'fah_team=your_team_id' fah_ami.json
 
-- From the output of the above command, copy the generated AMI's Id for use later
+- If you have the `jq` program installed, the packer build will attempt to set the AMI ID in `config.yaml` automatically. If not, please edit the `config.yaml` and set the AMI ID as well as other parameters.
 
 ### Configuring the stack
 

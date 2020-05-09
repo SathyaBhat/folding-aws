@@ -42,5 +42,16 @@
       ],
       "script": "./install_client.sh"
     }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    },
+    {
+      "type": "shell-local",
+      "scripts": ["./post-process.sh"]
+    }
   ]
 }
