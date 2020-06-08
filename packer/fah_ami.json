@@ -30,7 +30,7 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "config.xml",
+      "source": "folding/config.xml",
       "destination": "/tmp/config.xml"
     },
     {
@@ -40,7 +40,7 @@
         "fah_user={{user `fah_user`}}",
         "fah_passkey={{user `fah_passkey`}}"
       ],
-      "script": "./install_client.sh"
+      "script": "./folding/install_client.sh"
     }
   ],
   "post-processors": [
@@ -51,7 +51,7 @@
     },
     {
       "type": "shell-local",
-      "scripts": ["./post-process.sh"]
+      "scripts": ["./common/post-process.sh"]
     }
   ]
 }

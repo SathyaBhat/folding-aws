@@ -1,0 +1,49 @@
+{
+    "variables": {
+      "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+      "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+      "region": "{{env `AWS_DEFAULT_REGION`}}"
+    },
+    "builders": [
+      {
+        "type": "amazon-ebs",
+        "ami_name": "packer-ubuntu-base-{{timestamp}}",
+        "instance_type": "c5n.large",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `region`}}",
+        "source_ami_filter": {
+          "filters": {
+            "virtualization-type": "hvm",
+            "name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*",
+            "root-device-type": "ebs"
+          },
+          "owners": ["099720109477"],
+          "most_recent": true
+        },
+        "ssh_username": "ubuntu"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "shell",
+        "script": "./generic_base/base_setup.sh"
+      },
+      {
+        "type": "shell",
+        "script": "./generic_base/zsh_setup.sh"
+      }
+    ],
+    "post-processors": [
+      {
+        "type": "manifest",
+        "output": "manifest.json",
+        "strip_path": true
+      },
+      {
+        "type": "shell-local",
+        "scripts": ["./common/post-process.sh"]
+      }
+    ]
+  }
+  
