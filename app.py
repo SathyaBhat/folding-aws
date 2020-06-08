@@ -2,13 +2,15 @@
 
 from aws_cdk import core
 
-from folding_aws.folding_vpc_stack import FoldingVpcStack
-from folding_aws.folding_asg_stack import FoldingAsgStack
+from aws_stack.vpc_stack import VpcStack
+from aws_stack.asg_stack import AsgStack
 import sys
+import os
 import yaml
 
-def configure():
-  defaults = {  "aws": {
+def configure(stack_name: str):
+  defaults = {   
+                stack_name: {
                   "region": "us-east-1",
                   "ec2_instance_type": "c5n.large",
                   "asg_size": 2
@@ -25,18 +27,41 @@ def configure():
     sys.exit(1)
   # Deep merging should be done better. The moment we need more
   # parameters, this will need to be fixed
-  config = { "aws" : {**defaults['aws'], **user_config['aws']}}
-  return config
+  config = { stack_name : {
+                            **defaults[stack_name], 
+                            **user_config[stack_name],
+                          }
+          }
+  return config[stack_name]
 
-def cdk_init(config: dict):
-  app = core.App()
-  vpc_stack = FoldingVpcStack(app, "folding-vpc", env=core.Environment(region=config['aws']['region']))
-  asg_stack = FoldingAsgStack(app, "folding-asg", region=config['aws']['region'], vpc=vpc_stack.vpc, 
-                                ec2_instance_type=config['aws']['ec2_instance_type'], ami_id=config['aws']['ami_id'],
-                                ssh_key=config['aws']['ssh_key'], max_spot_price=config['aws']['max_spot_price'],
-                                ssh_allow_ip_range=config['aws']['ssh_allow_ip_range'], asg_size=config['aws']['asg_size'],
-                                env=core.Environment(region=config['aws']['region']))
+def cdk_init(stack_name: str):
+  config = configure(stack_name)
+  vpc_stack = VpcStack(app, 
+                      f"{stack_name}-vpc",
+                      cidr=config['cidr'],
+                      env=core.Environment(region=config['region'],
+                      )
+                    )
+
+  asg_stack = AsgStack(app, 
+                      f"{stack_name}-asg", 
+                      stack_name=stack_name,
+                      region=config['region'], 
+                      vpc=vpc_stack.vpc, 
+                      ec2_instance_type=config['ec2_instance_type'], 
+                      ami_id=config['ami_id'],
+                      ssh_key=config['ssh_key'], 
+                      max_spot_price=config['max_spot_price'],
+                      ssh_allow_ip_range=config['ssh_allow_ip_range'],
+                      asg_size=config['asg_size'],
+                      env=core.Environment(region=config['region'])
+                    )
   app.synth()
 
 if __name__ == "__main__":
-  cdk_init(configure())
+  app = core.App()
+  stack_name = app.node.try_get_context("stack_name")
+  if stack_name is None:
+    print("Please pass a stack name using -c <stack name>")
+    sys.exit(1)
+  cdk_init(stack_name)
