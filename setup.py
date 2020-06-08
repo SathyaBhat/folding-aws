@@ -6,17 +6,17 @@ with open("README.md") as fp:
 
 
 setuptools.setup(
-    name="folding_aws",
-    version="0.0.1",
+    name="aws_stack",
+    version="1.0.0",
 
-    description="An empty CDK Python app",
+    description="CDK components to bring up a generic multi-instance ASG",
     long_description=long_description,
     long_description_content_type="text/markdown",
 
     author="author",
 
-    package_dir={"": "folding_aws"},
-    packages=setuptools.find_packages(where="folding_aws"),
+    package_dir={"": "aws_stack"},
+    packages=setuptools.find_packages(where="aws_stack"),
 
     install_requires=[
         "aws-cdk.core==1.34.1",

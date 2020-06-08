@@ -11,7 +11,7 @@ import yaml
 bid_raise: float = 0.02
 
 
-class FoldingAsgStack(core.Stack):
+class AsgStack(core.Stack):
 
     def __init__(self,
                  scope: core.Construct,
@@ -60,7 +60,7 @@ class FoldingAsgStack(core.Stack):
                     print("Updating config file failed, proceeding to set up ASG ", exc)
 
         self.asg = autoscaling.AutoScalingGroup(self,
-                                                "folding-asg",
+                                                f"{stack_name}-asg",
                                                 instance_type=ec2.InstanceType(ec2_instance_type),
                                                 machine_image=ec2.MachineImage.generic_linux(ami_map={region: ami_id}
                                                                                              ),

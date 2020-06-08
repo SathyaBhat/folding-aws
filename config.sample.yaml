@@ -1,4 +1,4 @@
-aws:
+example-name:
   # What AWS region do we use for VPC and ASG stacks?
   # optional
   region: us-east-1
@@ -23,3 +23,5 @@ aws:
   # How many instances do you wish to use?
   # optional
   asg_size: 2
+  # cidr of the VPC
+  cidr: 10.0.0.0/16
