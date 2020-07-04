@@ -9,8 +9,11 @@ aws:
   # mandatory
   ssh_key: super-private-ssh-key
   # What is the maximum price in USD that we're willing to pay?
-  # mandatory
-  max_spot_price: "1.234"
+  # If you leave this empty, we will fetch the current spot price
+  # and raise the bid by a few cents. The instances will be set up
+  # only after confirmation
+  # optional
+  max_spot_price: ""
   # What IP addresses to allow security group access from?
   # mandatory
   ssh_allow_ip_range: 192.168.0.1/32

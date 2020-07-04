@@ -22,7 +22,8 @@ setuptools.setup(
         "aws-cdk.core==1.34.1",
         "aws-cdk.aws-ec2==1.34.1",
         "aws-cdk.aws-autoscaling==1.34.1",
-        "PyYAML==5.3.1"
+        "PyYAML==5.3.1",
+        "boto3==1.13.16"
     ],
 
     python_requires=">=3.6",

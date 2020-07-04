@@ -1,7 +1,7 @@
 
 # Folding on AWS
 
-This is a CDK project which configures a 2-instance ASG. The ASG is pointed to an AMI which is pre-configured to run [Folding@Home](https://foldingathome.org/), which can be generated using `packer`.
+This is a CDK project which configures a multi-instance ASG. The ASG is pointed to an AMI which is pre-configured to run [Folding@Home](https://foldingathome.org/), which can be generated using `packer`.
 
 ## How to run
 
@@ -33,7 +33,7 @@ This is a CDK project which configures a 2-instance ASG. The ASG is pointed to a
 
         pip install -r requirements.txt
 
-- Copy the `config.sample.yaml` file to `config.yaml` and set the appropriate values
+- Copy the `config.sample.yaml` file to `config.yaml` and set the appropriate values. Additional documentation is available in the sample configuration file.
 - Show the cloudformation template
 
         cdk synth <stack name>
