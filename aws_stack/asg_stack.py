@@ -41,7 +41,7 @@ class AsgStack(core.Stack):
                     print(
                         f"Your current specified maximum price ({max_spot_price}) is "
                         f"lower than the current spot price {str(max_current_spot_price)}")
-                print(f"Are you willing to pay {proposed_max_spot_price} US Dollars / hour for each instance?"
+                print(f"Are you willing to pay {proposed_max_spot_price} US Dollars / hour for each instance? "
                       f"Note: You have requested for {asg_size} instances of type {ec2_instance_type}.")
                 user_consent = input("y/N: ")
                 if not (user_consent.lower() == "y" or user_consent.lower == "yes"):
@@ -107,4 +107,5 @@ class AsgStack(core.Stack):
             spot_price_history = [x['SpotPrice'] for x in curr_az_price_history]
             spot_price_history.sort(reverse=True)
             spot_prices_by_az[az] = spot_price_history[0]
+        print(f"Got spot price: {max(spot_prices_by_az.values())}")
         return max(spot_prices_by_az.values())

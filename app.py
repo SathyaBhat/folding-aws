@@ -65,16 +65,21 @@ def cdk_init(stack_name: str, force_spot_price: bool):
   for tag in tags:
     core.Tag.add(asg_stack, tag.get('name'), tag.get('value'))  
     core.Tag.add(vpc_stack, tag.get('name'), tag.get('value'))
-    
+
   app.synth()
 
 
 if __name__ == "__main__":
   app = core.App()
   stack_name = app.node.try_get_context("stack_name")
+  
   if stack_name is None:
     print("Please pass a stack name using -c <stack name>")
     sys.exit(1)
   
-  force_spot_price = app.node.try_get_context("force")
+  force_spot_price = app.node.try_get_context("force_spot")
+  if force_spot_price:
+    print("Force Spot price flag is set, will auto fetch spot price")
+    print(force_spot_price)
+
   cdk_init(stack_name, force_spot_price)
