@@ -1,7 +1,9 @@
 
 # Folding on AWS
 
-This is a CDK project which configures a multi-instance ASG. The ASG is pointed to an AMI which is pre-configured to run [Folding@Home](https://foldingathome.org/), which can be generated using `packer`.
+This is a CDK project which configures a multi-instance ASG. As an example, there are two sets of configs predefined: the first config creates a two-node ASG pointed to an AMI which is pre-configured to run [Folding@Home](https://foldingathome.org/), while the second config is for a single-node ASG running a base install of Ubuntu with some extras (check [packer/generic_base cvonfig](/packer/generic_base.json) for details) 
+
+The AMIs are configured and built using [HashiCorp's Packer](https://www.packer.io/). These AMIs can then be updated in the config file.
 
 ## How to run
 
@@ -33,14 +35,28 @@ This is a CDK project which configures a multi-instance ASG. The ASG is pointed 
 
         pip install -r requirements.txt
 
-- Copy the `config.sample.yaml` file to `config.yaml` and set the appropriate values. Additional documentation is available in the sample configuration file.
+- Copy the `config.sample.yaml` file to `config.yaml` and set the appropriate values. Additional documentation is available in the sample configuration file. The `config.yaml` supports multiple configuration sets, each denoted by the root key. To deploy a specific config, we use the `context` feature of CDK.
+
+For example, if you want to create different config sets with different regions and VPCs, the config will look like below
+
+```
+everything:
+  region: eu-west-1
+  cidr: 10.1.0.0/22
+
+folding:
+  region: us-east-1
+  cidr: 10.0.0.0/16
+```
+
+The root keys, `everything` and `folding` will have to be passed as `context` when working with CDK, The VPC and ASG stacks created will have the root key as a prefix.
+
 - Show the cloudformation template
 
-        cdk synth <stack name>
-        cdk synth folding-vpc
+        cdk synth <stack name> -c stack_name=<config-name>
+        cdk synth folding-vpc -c stack_name=folding
 
 - Or just deploy 
  
-        cdk deploy <stack name>
-        cdk deploy folding-vpc
-        cdk deploy folding-asg
+        cdk deploy <stack names> -c stack_name=<config-name>
+        cdk deploy folding-vpc folding-asg -c stack_name=folding

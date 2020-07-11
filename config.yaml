@@ -1,25 +1,60 @@
-aws:
+
+everything:
   # What AWS region do we use for VPC and ASG stacks?
   # optional
-  region: us-east-1
+  region: eu-west-1
+  # CIDR for the new vpc to be created
+  cidr: 10.1.0.0/22
   # What is the AMI ID of the Folding @ Home Image
   # mandatory
-  ami_id: ami-1234567890
+  ami_id: ami-0e55fa4214caf8a32
   # What ssh key is allowed access to the instances in the ASG?
   # mandatory
-  ssh_key: super-private-ssh-key
+  ssh_key: base_08062020
+  # What is the maximum price in USD that we're willing to pay?
+  # mandatory
+  max_spot_price: "0.009"
+  # What IP addresses to allow security group access from?
+  # mandatory
+  ssh_allow_ip_range: 84.232.204.212/32
+  # What instance type/sizing would you prefer?
+  # optional
+  ec2_instance_type: "t3a.small"
+  # How many instances do you wish to use?
+  # optional
+  asg_size: 1
+
+folding:
+  # What AWS region do we use for VPC and ASG stacks?
+  # optional
+  region: eu-west-1
+  # CIDR for the new vpc to be created
+  # mandatory
+  cidr: 10.0.0.0/16
+  # What is the AMI ID of the Folding @ Home Image
+  # mandatory
+  ami_id: ami-0a8341e7c0a146e7f
+  # What ssh key is allowed access to the instances in the ASG?
+  # mandatory
+  ssh_key: sathya_folding_ssh
   # What is the maximum price in USD that we're willing to pay?
   # If you leave this empty, we will fetch the current spot price
   # and raise the bid by a few cents. The instances will be set up
   # only after confirmation
   # optional
-  max_spot_price: ""
+  max_spot_price: "0.045"
   # What IP addresses to allow security group access from?
   # mandatory
-  ssh_allow_ip_range: 192.168.0.1/32
+  ssh_allow_ip_range: 84.232.204.212/32
   # What instance type/sizing would you prefer?
   # optional
   ec2_instance_type: "c5n.large"
   # How many instances do you wish to use?
   # optional
   asg_size: 2
+  tags:
+    - name: used_for
+      value: folding
+    - name: created_by
+      value: sathyabhat
+    

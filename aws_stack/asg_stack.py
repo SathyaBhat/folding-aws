@@ -11,7 +11,7 @@ import yaml
 bid_raise: float = 0.02
 
 
-class FoldingAsgStack(core.Stack):
+class AsgStack(core.Stack):
 
     def __init__(self,
                  scope: core.Construct,
@@ -25,6 +25,7 @@ class FoldingAsgStack(core.Stack):
                  ssh_allow_ip_range: str,
                  asg_size: str,
                  force_spot_price: bool,
+                 stack_name: str,
                  **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -40,7 +41,7 @@ class FoldingAsgStack(core.Stack):
                     print(
                         f"Your current specified maximum price ({max_spot_price}) is "
                         f"lower than the current spot price {str(max_current_spot_price)}")
-                print(f"Are you willing to pay {proposed_max_spot_price} US Dollars / hour for each instance?"
+                print(f"Are you willing to pay {proposed_max_spot_price} US Dollars / hour for each instance? "
                       f"Note: You have requested for {asg_size} instances of type {ec2_instance_type}.")
                 user_consent = input("y/N: ")
                 if not (user_consent.lower() == "y" or user_consent.lower == "yes"):
@@ -60,7 +61,7 @@ class FoldingAsgStack(core.Stack):
                     print("Updating config file failed, proceeding to set up ASG ", exc)
 
         self.asg = autoscaling.AutoScalingGroup(self,
-                                                "folding-asg",
+                                                f"{stack_name}-asg",
                                                 instance_type=ec2.InstanceType(ec2_instance_type),
                                                 machine_image=ec2.MachineImage.generic_linux(ami_map={region: ami_id}
                                                                                              ),
@@ -93,7 +94,7 @@ class FoldingAsgStack(core.Stack):
         return all_azs
 
     def get_current_spot_price(self, region: str, ec2_instance_type: str) -> float:
-        ec2 = boto3.client('ec2')
+        ec2 = boto3.client('ec2', region_name=region)
         now = datetime.utcnow()
         yesterday = now - timedelta(days=1)
         spot_prices_by_az = {}
@@ -106,4 +107,5 @@ class FoldingAsgStack(core.Stack):
             spot_price_history = [x['SpotPrice'] for x in curr_az_price_history]
             spot_price_history.sort(reverse=True)
             spot_prices_by_az[az] = spot_price_history[0]
+        print(f"Got spot price: {max(spot_prices_by_az.values())}")
         return max(spot_prices_by_az.values())
