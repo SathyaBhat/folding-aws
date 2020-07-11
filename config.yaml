@@ -36,19 +36,25 @@ folding:
   ami_id: ami-0a8341e7c0a146e7f
   # What ssh key is allowed access to the instances in the ASG?
   # mandatory
-  ssh_key: super-private-ssh-key
+  ssh_key: sathya_folding_ssh
   # What is the maximum price in USD that we're willing to pay?
   # If you leave this empty, we will fetch the current spot price
   # and raise the bid by a few cents. The instances will be set up
   # only after confirmation
   # optional
-  max_spot_price: ""
+  max_spot_price: "0.045"
   # What IP addresses to allow security group access from?
   # mandatory
-  ssh_allow_ip_range: 192.168.0.1/32
+  ssh_allow_ip_range: 84.232.204.212/32
   # What instance type/sizing would you prefer?
   # optional
   ec2_instance_type: "c5n.large"
   # How many instances do you wish to use?
   # optional
   asg_size: 2
+  tags:
+    - name: used_for
+      value: folding
+    - name: created_by
+      value: sathyabhat
+    

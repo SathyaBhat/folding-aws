@@ -25,6 +25,7 @@ class AsgStack(core.Stack):
                  ssh_allow_ip_range: str,
                  asg_size: str,
                  force_spot_price: bool,
+                 stack_name: str,
                  **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -93,7 +94,7 @@ class AsgStack(core.Stack):
         return all_azs
 
     def get_current_spot_price(self, region: str, ec2_instance_type: str) -> float:
-        ec2 = boto3.client('ec2')
+        ec2 = boto3.client('ec2', region_name=region)
         now = datetime.utcnow()
         yesterday = now - timedelta(days=1)
         spot_prices_by_az = {}

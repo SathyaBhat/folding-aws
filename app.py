@@ -40,13 +40,13 @@ def configure(stack_name: str):
 
 def cdk_init(stack_name: str, force_spot_price: bool):
   config = configure(stack_name)
+  tags = config.get('tags')
   vpc_stack = VpcStack(app, 
                       f"{stack_name}-vpc",
                       cidr=config['cidr'],
                       env=core.Environment(region=config['region'],
                       )
                     )
-
   asg_stack = AsgStack(app, 
                     f"{stack_name}-asg", 
                     stack_name=stack_name,
@@ -61,6 +61,11 @@ def cdk_init(stack_name: str, force_spot_price: bool):
                     force_spot_price=force_spot_price,
                     env=core.Environment(region=config['region'])
                   )
+  
+  for tag in tags:
+    core.Tag.add(asg_stack, tag.get('name'), tag.get('value'))  
+    core.Tag.add(vpc_stack, tag.get('name'), tag.get('value'))
+    
   app.synth()
 
 
