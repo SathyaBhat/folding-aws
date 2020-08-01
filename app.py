@@ -126,7 +126,7 @@ def process_spot_pricing(max_spot_price: str,
 
 def cdk_init(stack_name: str, force_spot_price: bool):
     config = configure(stack_name)
-    if (not force_spot_price) or (feature_query_spot_prices_disabled):
+    if (not force_spot_price) or (not feature_query_spot_prices_disabled):
         config['max_spot_price'] = process_spot_pricing(max_spot_price=config['max_spot_price'],
                                                         region=config['region'],
                                                         ec2_instance_type=config['ec2_instance_type'],
@@ -172,5 +172,5 @@ if __name__ == "__main__":
     if force_spot_price:
         logging.error("Force Spot price flag is set, will auto fetch spot price")
 
-    logging.debug("Parsed all command line parameters")
+    logging.debug(f"Parsed all command line parameters: stack_name: {stack_name}, force_spot_price: {force_spot_price}")
     cdk_init(stack_name, force_spot_price)
