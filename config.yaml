@@ -16,13 +16,18 @@ everything:
   max_spot_price: "0.009"
   # What IP addresses to allow security group access from?
   # mandatory
-  ssh_allow_ip_range: 84.232.204.212/32
+  ssh_allow_ip_range: 188.25.150.168/32
   # What instance type/sizing would you prefer?
   # optional
   ec2_instance_type: "t3a.small"
   # How many instances do you wish to use?
   # optional
   asg_size: 1
+  tags:
+    - name: used_for
+      value: assorted stuff
+    - name: created_by
+      value: sathyabhat
 
 folding:
   # What AWS region do we use for VPC and ASG stacks?
@@ -45,7 +50,9 @@ folding:
   max_spot_price: "0.045"
   # What IP addresses to allow security group access from?
   # mandatory
-  ssh_allow_ip_range: 84.232.204.212/32
+  ssh_allow_ip_range: 
+    - 84.232.204.212/32
+    - 188.27.120.167/32
   # What instance type/sizing would you prefer?
   # optional
   ec2_instance_type: "c5n.large"
@@ -58,3 +65,38 @@ folding:
     - name: created_by
       value: sathyabhat
     
+folding-arm:
+  # What AWS region do we use for VPC and ASG stacks?
+  # optional
+  region: eu-west-1
+  # CIDR for the new vpc to be created
+  # mandatory
+  cidr: 10.2.0.0/22
+  # What is the AMI ID of the Folding @ Home Image
+  # mandatory
+  ami_id: ami-077f8a4346ed7d78d
+  # What ssh key is allowed access to the instances in the ASG?
+  # mandatory
+  ssh_key: sathya_folding_ssh
+  # What is the maximum price in USD that we're willing to pay?
+  # If you leave this empty, we will fetch the current spot price
+  # and raise the bid by a few cents. The instances will be set up
+  # only after confirmation
+  # optional
+  max_spot_price: "0.076800"
+  # What IP addresses to allow security group access from?
+  # mandatory
+  ssh_allow_ip_range: 
+    - 84.232.204.212/32
+    - 188.27.120.167/32
+  # What instance type/sizing would you prefer?
+  # optional
+  ec2_instance_type: "c6gd.large"
+  # How many instances do you wish to use?
+  # optional
+  asg_size: 2
+  tags:
+    - name: used_for
+      value: folding_arm
+    - name: created_by
+      value: sathyabhat
