@@ -78,9 +78,10 @@ class AsgStack(core.Stack):
                                       "allow-ssh",
                                       vpc=vpc,
                                       allow_all_outbound=True)
-        sg_ssh_in.add_ingress_rule(ec2.Peer.ipv4(ssh_allow_ip_range),
-                                   ec2.Port.tcp(22)
-                                   )
+        for ip in ssh_allow_ip_range:
+            sg_ssh_in.add_ingress_rule(ec2.Peer.ipv4(ip),
+                                    ec2.Port.tcp(22)
+                                    )
 
         self.asg.add_security_group(sg_ssh_in)
 
@@ -102,10 +103,9 @@ class AsgStack(core.Stack):
             curr_az_price_history = ec2.describe_spot_price_history(AvailabilityZone=az,
                                                                     InstanceTypes=[ec2_instance_type],
                                                                     ProductDescriptions=['Linux/UNIX'],
-                                                                    StartTime=yesterday, EndTime=now)[
-                'SpotPriceHistory']
+                                                                    StartTime=yesterday, EndTime=now)['SpotPriceHistory']
             spot_price_history = [x['SpotPrice'] for x in curr_az_price_history]
             spot_price_history.sort(reverse=True)
-            spot_prices_by_az[az] = spot_price_history[0]
+            spot_prices_by_az[az] = spot_price_history[0] if len(spot_price_history) > 0 else "0"
         print(f"Got spot price: {max(spot_prices_by_az.values())}")
         return max(spot_prices_by_az.values())
