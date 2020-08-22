@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
     force_spot_price = app.node.try_get_context("force_spot")
     if force_spot_price:
-        logging.error("Force Spot price flag is set, will auto fetch spot price")
+        logging.info("Force Spot price flag is set, will auto fetch spot price")
 
     logging.debug(f"Parsed all command line parameters: stack_name: {stack_name}, force_spot_price: {force_spot_price}")
     cdk_init(stack_name, force_spot_price)
